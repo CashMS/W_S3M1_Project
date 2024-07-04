@@ -55,16 +55,20 @@
       up(meters) {
         let planeUp = this.altitude += meters;
         if (planeUp > 0) {
-          return meters;
+          return planeUp;
         }
       }
       down(meters) {
-        let planeDown = this.altitude -= meters;
-        if (planeDown < 0) {
-          return "CRASH!";
-        } else {
-          return meters;
-        }
+        if (this.altitude - meters < 0) {
+    this.altitude = 0;
+  } else {
+    this.altitude -= meters;
+  }
+  if (this.altitude === 0) {
+    return "CRASH!";
+  } else {
+    return this.altitude;
+  }
       }
     }
 
@@ -75,8 +79,29 @@
     // 🧠 The methods work as one might expect, changing the value of `isOn` to the appropriate Boolean.
     // 🧠 The methods also return one of these two strings: "You turned the bulb ON", or "You turned the bulb OFF".
     class Bulb {
-
+      constructor(isOn) {
+        this.isOn = false;
+      }
+      turnOn() {
+        this.isOn = true
+        if (this.isOn === true) return "You turned the bulb ON";
+      }
+      turnOff() {
+        this.isOn = false;
+        if (this.isOn === false) return "You turned the bulb OFF";
+      }
+      toggle() {
+        if (this.isOn === false) {
+          this.turnOn()
+          return "You turned the bulb ON";
+        } else {
+          this.turnOff()
+          return "You turned the bulb OFF";
+        }
+      }
     }
+
+    const bulbs = new Bulb()
 
     // 👉 CHALLENGE 4
     // 🧠 Build a CountDown class that can count down starting at any number we pass to the constructor.
